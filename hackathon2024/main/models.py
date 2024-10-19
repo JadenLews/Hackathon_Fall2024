@@ -15,10 +15,11 @@ class ProjectPost(models.Model):
         return self.title
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Link to Django User
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
+    skills = models.JSONField(default=list, blank=True)  # Initialize to an empty list
 
     def __str__(self):
         return f'{self.user.username} Profile'

@@ -120,26 +120,29 @@ def home(request):
 
 @login_required
 def profile(request):
-    # Ensure the user has a profile
-    if not hasattr(request.user, 'profile'):
-        Profile.objects.create(user=request.user)
-
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            return redirect('profile')
+            # Convert the comma-separated string into a list of skills
+            skills = profile_form.cleaned_data.get('skills', '').split(',')
+            # Clean up empty strings and whitespace
+            skills = [skill.strip() for skill in skills if skill.strip()]
+            
+            profile = profile_form.save(commit=False)
+            profile.skills = skills if skills else []  # Set as empty list if no skills
+            profile.save()
 
+            # Save the user form too
+            user_form.save()
+            return redirect('profile')
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     context = {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
     }
-
     return render(request, 'profile.html', context)
