@@ -1,9 +1,76 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import ProjectPost
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile, ProjectPost
 from .models import Profile
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from .managers import CustomUserManager
+import random
+from django.db.models import Avg
+from django.http import HttpResponseNotFound
+from django.utils import timezone
+
+
+def login(request):
+    return render(request, "main/login.html")
+
+def signup(request):
+    return render(request, "main/signup.html")
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get(
+            "username"
+        )  # Assuming your login form has a field named 'username'
+        password = request.POST.get(
+            "password"
+        )  # Assuming your login form has a field named 'password'
+
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            # User is authenticated, log them in
+            auth_login(request, user)
+            return redirect("home")  # Redirect to home page after successful login
+        else:
+            # Authentication failed
+            messages.error(request, "Invalid username or password. Please try again.")
+
+    return render(request, "main/login.html")
+
+def signup_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        email = request.POST.get("email")
+        if not email.endswith("@clarku.edu"):
+            messages.error(request, "Must use a Clark email address.")
+            return redirect("signup")
+
+        User = get_user_model()
+        if User.objects.filter(username=username).exists():
+            messages.error(
+                request, "Username already exists. Please choose a different username."
+            )
+            return redirect("signup")
+        if User.objects.filter(email=email).exists():
+            messages.error(
+                request, "Email already exists. Please use a different email address."
+            )
+            return redirect("signup")
+
+        user_manager = CustomUserManager()
+        new_user = user_manager.create_user(
+            username=username, email=email, password=password
+        )
+
+        return redirect("login")
+
+    return render(request, "main/signup.html")
 # Create your views here.
 @login_required
 def portfolio_page(request):
@@ -30,6 +97,8 @@ def home(request):
         'posts': posts,
     }
     return render(request, "main/home.html", context)
+
+
 
 
 @login_required
