@@ -18,9 +18,9 @@
         }
 
         h1, h3, p, li {
-            color: white;           /* Ensures all text is white */
-            font-weight: 700;       /* Makes the text thicker */
-            letter-spacing: 0.5px;  /* Optional: adds spacing for clarity */
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .profile-header {
@@ -45,6 +45,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
+            z-index: 1; /* Ensure it stays behind the button */
         }
 
         .profile-picture {
@@ -53,15 +54,22 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
+            z-index: 2; /* Ensure it is above the overlay */
         }
 
         .btn {
             background-color: #42a5f5;
             border-radius: 30px;
             max-width: 200px;
-            font-weight: 700;      /* Thicker button text */
+            font-weight: 700;
             color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
             transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+            z-index: 3; /* Ensure the button is on top */
+            position: relative;
         }
 
         .btn:hover {
@@ -83,7 +91,7 @@
             margin: 5px;
             padding: 5px 10px;
             border-radius: 12px;
-            font-weight: 700;    /* Thicker badge text */
+            font-weight: 700;
             font-size: 0.85rem;
         }
 
@@ -93,6 +101,7 @@
             left: 10px;
             color: white;
             font-size: 1.5rem;
+            z-index: 3; /* Ensure it is clickable */
         }
     </style>
 </head>
@@ -106,7 +115,9 @@
         <img src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}{% static 'images/brocoli.jpg' %}{% endif %}" 
              class="profile-picture mb-3" alt="Profile Picture">
         <h1>Hi, I'm {{ profile.user.username }}!</h1>
-        <a href="#" class="btn mt-3">Edit Profile</a>
+
+        <!-- Clickable Button -->
+        <a href="{% url 'profile' %}?edit=true" class="btn mt-3">Edit Profile</a>
     </div>
 
     <!-- Name and Skills Section -->
@@ -163,3 +174,4 @@
 
 </body>
 </html>
+
