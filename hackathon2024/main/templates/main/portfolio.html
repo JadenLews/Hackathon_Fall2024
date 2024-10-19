@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}My Personal Portfolio{% endblock title %}</title>
+    <!-- Google Fonts Link -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Bootstrap JS and Popper.js, loaded after content for better performance -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    {% load static %} <!-- Correct placement of loading static files -->
+    
+    <!-- Include Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Your custom CSS, loaded after Bootstrap for overriding styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="container">
+    <div class="container mt-5">
+        <!-- Project Post Box -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title">Campus eBay - Item Exchange Platform</h2>
+                        <p class="card-text">
+                            This project aims to build an online marketplace for students on campus to exchange items they no longer need. The platform will allow users to post listings, negotiate prices, and arrange for item pickups.
+                        </p>
+
+                        <h5>Skills Needed:</h5>
+                        <div class="mb-3">
+                            <span class="badge bg-primary">Python</span>
+                            <span class="badge bg-secondary">Django</span>
+                            <span class="badge bg-success">React</span>
+                            <span class="badge bg-warning">SQL</span>
+                        </div>
+
+                        <h5>Members:</h5>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Member 1">
+                                <p class="text-center">John</p>
+                            </li>
+                            <li class="list-inline-item">
+                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Member 2">
+                                <p class="text-center">Emma</p>
+                            </li>
+                            <li class="list-inline-item">
+                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Member 3">
+                                <p class="text-center">David</p>
+                            </li>
+                        </ul>
+
+                        <a href="#" class="btn btn-primary mt-3">Join Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block page_content %}{% endblock page_content %}
+    
+
+</body>
+</html>
