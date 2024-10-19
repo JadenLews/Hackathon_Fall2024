@@ -33,12 +33,20 @@
         }
 
         .navbar input[type="search"] {
-            width: 70%;
+            width: 100%;
+            max-width: 600px;
             padding: 5px;
             border-radius: 5px;
             border: none;
             background-color: #fff;
-            color: rgb(0,0,0);
+            color: #000;
+        }
+
+        /* Centering search bar */
+        .search-bar-container {
+            display: flex;
+            justify-content: center;
+            flex: 1;
         }
 
         .navbar-icons {
@@ -185,7 +193,12 @@
     <!-- Navigation Bar -->
     <div class="navbar">
         <div class="hamburger d-md-none" id="hamburger">☰</div> <!-- Burger for small screens -->
-        <input type="search" placeholder="Search..." class="form-control mx-3">
+
+        <!-- Search bar centered -->
+        <div class="search-bar-container">
+            <input type="search" placeholder="Search..." class="form-control">
+        </div>
+
         <div class="navbar-icons d-flex align-items-center">
             <i class="bi bi-bell mx-2"></i>
             <i class="bi bi-person"></i>
