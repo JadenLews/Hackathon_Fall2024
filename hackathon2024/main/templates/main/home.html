@@ -193,6 +193,90 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px; /* Reduced margin */
+        }
+
+        .user-image {
+            width: 40px; /* Reduced size */
+            height: 40px; /* Reduced size */
+        }
+
+        .name-time {
+            display: flex;
+            flex-direction: column;
+            color: #e0e0e0;
+            font-size: 14px; /* Make the text a bit smaller */
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .post-title {
+            font-size: 18px; /* Slightly smaller */
+            font-weight: bold;
+            margin-bottom: 8px; /* Reduced margin */
+            color: white;
+            text-align: left; /* Align title to the left */
+        }
+
+        .post-desc ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 10px; /* Reduced margin */
+            color: #d3d3d3;
+        }
+
+        .skills {
+            display: flex;
+            gap: 8px; /* Reduced gap */
+            margin-bottom: 5px; /* Reduced margin */
+        }
+
+        .skill {
+            background-color: #3e3e50;
+            color: #c4c4ff;
+            padding: 5px 8px; /* Reduced padding */
+            border-radius: 5px;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px; /* Reduced margin */
+        }
+
+        /* Like Button */
+        .like-btn {
+            background-color: #3d73c6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .like-btn i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .more-btn {
+            background-color: transparent;
+            border: 1px solid #3d73c6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
         /* Responsive Sidebar */
         @media (max-width: 768px) {
             .sidebar {
@@ -224,23 +308,6 @@
             border-radius: 5px;
             cursor: pointer;
             white-space: nowrap;
-        }
-
-        /* Like Button */
-        .like-btn {
-            background-color: #3d73c6;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .like-btn i {
-            font-size: 16px;
-            margin-right: 5px;
         }
 
         /* Dropdown menu styles for mobile */
@@ -308,9 +375,10 @@
 
         <!-- Notifications Content -->
         <div id="notifications-content" class="tab-content active">
-            <img src="https://www.redditinc.com/assets/images/site/reddit-logo.png" alt="Notification Logo" class="empty-state-img">
+            <!-- image to make it not as empty-->
+            <!-- <img src="https://www.redditinc.com/assets/images/site/reddit-logo.png" alt="Notification Logo" class="empty-state-img"> -->
             <p class="notification-title">You don't have any activity yet</p>
-            <p class="notification-message">That's okay, maybe you just need the right inspiration. Have you had your daily cat fix?</p>
+            <p class="notification-message">That's okay, maybe you just need the right inspiration.</p>
         </div>
 
         <!-- Messages Content -->
@@ -343,37 +411,56 @@
 
         {% if posts %}
             {% for post in posts %}
-                <!-- Post Box -->
-                <div class="post-container">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="path/to/image" class="img-fluid rounded-circle" alt="User Image">
-                            <div class="name-time">
-                                <span>{{ post.user }}</span>
-                                <span>{{ post.date }}</span>
-                            </div>
-                        </div>
-                        <div class="post-actions">
-                            <span>{{ post.current_people }}/{{ post.max_people }}</span>
-                            <button class="join-btn mx-2">Request</button>
+            <div class="post-container">
+                <!-- Post Header: User Icon, Name, Date, Participants, Request -->
+                <div class="post-header d-flex justify-content-between align-items-center">
+                    <!-- Left Section: User Icon and Info -->
+                    <div class="user-info d-flex align-items-center">
+                        <img src="path/to/user-icon.jpg" class="user-image rounded-circle" alt="User Icon">
+                        <div class="name-time ml-3">
+                            <span class="username">Username</span>
+                            <span class="date-posted">Date Posted: Oct. 8, 2024</span>
                         </div>
                     </div>
-
-                    <div class="post-title">{{ post.title }}</div>
-                    <div class="post-desc">{{ post.description }}</div>
-
-                    <!-- Skills -->
-                    <div class="skills d-flex flex-wrap">
-                        {% for skill in post.skills %}
-                            <span class="skill">{{ skill }}</span>
-                        {% endfor %}
+            
+                    <!-- Right Section: Participants and Request Button -->
+                    <div class="post-actions d-flex align-items-center">
+                        <span class="participants">4/8</span>
+                        <button class="join-btn mx-3">Request</button>
                     </div>
-
-                    <!-- Like Button -->
-                    <button class="like-btn d-flex align-items-center mt-2">
-                        <i class="bi bi-hand-thumbs-up mx-2"></i> {{ post.likes }}
-                    </button>
                 </div>
+            
+                <!-- Project Title -->
+                <div class="post-title">
+                    Project Title: A Cool Project
+                </div>
+            
+                <!-- Bullet-point Description -->
+                <div class="post-desc">
+                    <ul>
+                        <li>This is my test project</li>
+                        <li>I want to do blah blah blah</li>
+                        <li>Details of the project...</li>
+                    </ul>
+                </div>
+            
+                <!-- Skills -->
+                <div class="skills d-flex">
+                    <span class="skill">Python</span>
+                    <span class="skill">Django</span>
+                    <span class="skill">React</span>
+                    <span class="skill">SQL</span>
+                </div>
+            
+                <!-- Post Footer: Like Button and More Button -->
+                <div class="post-footer d-flex justify-content-between align-items-center">
+                    <button class="like-btn d-flex align-items-center">
+                        <i class="bi bi-hand-thumbs-up mx-2"></i> 3
+                    </button>
+                    <button class="more-btn">More ▼</button>
+                </div>
+            </div>
+            
             {% endfor %}
         {% else %}
             <p>You have no stocks in your watchlist.</p>
