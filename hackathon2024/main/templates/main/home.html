@@ -189,9 +189,10 @@
 
         /* Add a border and spacing for clarity */
         .post-container {
+            position: relative;
             background-color: #242434;
             padding: 20px;
-            margin: 20px 0;
+            margin-bottom: 20px;
             border-radius: 10px;
             border: 1px solid #3e3e50;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -207,6 +208,7 @@
         .user-image {
             width: 40px; /* Reduced size */
             height: 40px; /* Reduced size */
+            margin-right: 10px;
         }
 
         .name-time {
@@ -256,24 +258,11 @@
             margin-top: 10px; /* Reduced margin */
         }
 
-        /* Like Button */
-        .like-btn {
-            background-color: #3d73c6;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            margin-top: 5px;
-        }
-
-        .like-btn i {
-            font-size: 16px;
-            margin-right: 5px;
-        }
 
         .more-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
             background-color: transparent;
             border: 1px solid #3d73c6;
             color: white;
@@ -458,10 +447,7 @@
             
                 <!-- Post Footer: Like Button and More Button -->
                 <div class="post-footer d-flex justify-content-between align-items-center">
-                    <button class="like-btn d-flex align-items-center">
-                        <i class="bi bi-hand-thumbs-up mx-2"></i> 3
-                    </button>
-                    <button class="more-btn" onclick="showDetail('{{ post.id }}')">Show More ▼</button>
+                    <button class="more-btn" onclick="showDetail('{{ post.id }}')">Show More <i class="bi bi-chevron-down"></i> </button>
                 </div>
             </div>
             
@@ -512,14 +498,8 @@
                 <span class="skill">SQL</span>
             </div>
         
-            <!-- Post Footer: Like Button and More Button -->
-            <div class="post-footer d-flex justify-content-between align-items-center">
-                <button class="like-btn d-flex align-items-center">
-                    <i class="bi bi-hand-thumbs-up mx-2"></i> 3
-                </button>
-        </div>
 
-    </div>
+        </div>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
