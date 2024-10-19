@@ -6,6 +6,7 @@ class ProjectPost(models.Model):
     description = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)  # Initialize likes to 0
     workers = models.IntegerField(default=1)
+    workersneeded = models.IntegerField(default=2)
     date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     skills = models.JSONField()  # Store skills as a list of strings in JSON format

@@ -416,16 +416,16 @@
                 <div class="post-header d-flex justify-content-between align-items-center">
                     <!-- Left Section: User Icon and Info -->
                     <div class="user-info d-flex align-items-center">
-                        <img src="path/to/user-icon.jpg" class="user-image rounded-circle" alt="User Icon">
+                        <img src="{{ post.profile_image|default:'path/to/default-user-icon.jpg' }}" class="user-image rounded-circle" alt="User Icon">
                         <div class="name-time ml-3">
-                            <span class="username">Username</span>
-                            <span class="date-posted">Date Posted: Oct. 8, 2024</span>
+                            <span class="username">{{ post.post.user.username}}</span>
+                            <span class="date-posted">{{ post.post.date}}</span>
                         </div>
                     </div>
             
                     <!-- Right Section: Participants and Request Button -->
                     <div class="post-actions d-flex align-items-center">
-                        <span class="participants">4/8</span>
+                        <span class="participants">{{ post.post.workers }} / {{ post.post.workersneeded }}</span>
                         <button class="join-btn mx-3">Request</button>
                     </div>
                 </div>

@@ -90,11 +90,28 @@ def portfolio_page(request):
     return render(request, "main/portfolio.html", context)
 
 
+from django.shortcuts import render
+from .models import ProjectPost, Profile
+
 def home(request):
-    # Fetch all posts from the database
+    # Fetch all posts with related user profiles
     posts = ProjectPost.objects.all()
+    
+    # Create a list of posts with corresponding user profiles
+    posts_with_profiles = []
+    for post in posts:
+        try:
+            profile = Profile.objects.get(user=post.user)  # Get profile for each post's user
+        except Profile.DoesNotExist:
+            profile = None  # In case the user has no profile
+
+        posts_with_profiles.append({
+            'post': post,
+            'profile_image': profile.profile_image.url if profile and profile.profile_image else None
+        })
+
     context = {
-        'posts': posts,
+        'posts': posts_with_profiles,
     }
     return render(request, "main/home.html", context)
 
