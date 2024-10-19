@@ -18,8 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from main import views as main_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("portfolio/", main_views.portfolio_page, name="portfolio"),
+    path('profile/', main_views.profile, name='profile'),
     path("home/", main_views.home, name="portfolio"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
