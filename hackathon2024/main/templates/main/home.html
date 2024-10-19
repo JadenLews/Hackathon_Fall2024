@@ -61,6 +61,93 @@
             color: #b0b0b0;
         }
 
+        /* Notification Dropdown */
+        .dropdown-menu-notification {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 45px;
+            width: 350px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 15px;
+            color: #000;
+        }
+
+        .dropdown-menu-notification.active {
+            display: block;
+        }
+
+        /* Tabs for Notifications and Messages */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-nav button {
+            background: none;
+            border: none;
+            color: #000;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .tab-nav button.active {
+            border-bottom: 3px solid #3d73c6;
+            color: #3d73c6;
+        }
+
+        /* Notification/Message Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .notification-message {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .empty-state-img {
+            display: block;
+            margin: 20px auto;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .hover-line {
+            height: 3px;
+            width: 100px;
+            background-color: #3d73c6;
+            display: inline-block;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            transition: all 0.3s;
+        }
+        
+        .tab-nav button:hover .hover-line,
+        .tab-nav button.active .hover-line {
+            background-color: #3d73c6;
+            width: 100%;
+        }
+
         /* Sidebar under Navbar and next to content */
         .sidebar {
             background-color: #242434;
@@ -200,8 +287,36 @@
         </div>
 
         <div class="navbar-icons d-flex align-items-center">
-            <i class="bi bi-bell mx-2"></i>
+            <i class="bi bi-bell" id="notification-icon"></i>
             <i class="bi bi-person"></i>
+        </div>
+    </div>
+
+    <!-- Notification Dropdown -->
+    <div class="dropdown-menu-notification" id="notification-dropdown">
+        <!-- Tabs for Notifications and Messages -->
+        <div class="tab-nav">
+            <button id="notifications-tab" class="active">
+                Notifications
+                <div class="hover-line"></div>
+            </button>
+            <button id="messages-tab">
+                Messages
+                <div class="hover-line"></div>
+            </button>
+        </div>
+
+        <!-- Notifications Content -->
+        <div id="notifications-content" class="tab-content active">
+            <img src="https://www.redditinc.com/assets/images/site/reddit-logo.png" alt="Notification Logo" class="empty-state-img">
+            <p class="notification-title">You don't have any activity yet</p>
+            <p class="notification-message">That's okay, maybe you just need the right inspiration. Have you had your daily cat fix?</p>
+        </div>
+
+        <!-- Messages Content -->
+        <div id="messages-content" class="tab-content">
+            <p class="notification-title">You don't have any messages</p>
+            <p class="notification-message">It looks like your inbox is empty.</p>
         </div>
     </div>
 
@@ -283,6 +398,41 @@
             if (!dropdown.contains(event.target) && !hamburger.contains(event.target)) {
                 dropdown.classList.remove('active');
             }
+        });
+
+        // Notification Dropdown Toggle
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        notificationIcon.addEventListener('click', function() {
+            notificationDropdown.classList.toggle('active');
+        });
+
+        // Close the dropdown if clicking outside or double-clicking the notification icon
+        document.addEventListener('click', function(event) {
+            if (!notificationDropdown.contains(event.target) && !notificationIcon.contains(event.target)) {
+                notificationDropdown.classList.remove('active');
+            }
+        });
+
+        // Tab Switching Logic
+        const notificationsTab = document.getElementById('notifications-tab');
+        const messagesTab = document.getElementById('messages-tab');
+        const notificationsContent = document.getElementById('notifications-content');
+        const messagesContent = document.getElementById('messages-content');
+
+        notificationsTab.addEventListener('click', function() {
+            notificationsTab.classList.add('active');
+            messagesTab.classList.remove('active');
+            notificationsContent.classList.add('active');
+            messagesContent.classList.remove('active');
+        });
+
+        messagesTab.addEventListener('click', function() {
+            messagesTab.classList.add('active');
+            notificationsTab.classList.remove('active');
+            messagesContent.classList.add('active');
+            notificationsContent.classList.remove('active');
         });
     </script>
 </body>
