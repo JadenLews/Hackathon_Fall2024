@@ -411,7 +411,7 @@
 
         {% if posts %}
             {% for post in posts %}
-            <div class="post-container">
+            <div class="post-container" id="post-{{ post.id }}">
                 <!-- Post Header: User Icon, Name, Date, Participants, Request -->
                 <div class="post-header d-flex justify-content-between align-items-center">
                     <!-- Left Section: User Icon and Info -->
@@ -421,14 +421,6 @@
                             <span class="username">Username</span>
                             <span class="date-posted">Date Posted: Oct. 8, 2024</span>
                         </div>
-
-                        <!-- Like Button -->
-                        <button class="like-btn d-flex align-items-center mt-2">
-                            <i class="bi bi-hand-thumbs-up mx-2"></i> {{ post.likes }}
-                        </button>
-
-                        <!-- Show More Button -->
-                        <button class="show-more-btn btn btn-link" onclick="showDetail('{{ post.id|escapejs }}')">Show More</button>
                     </div>
             
                     <!-- Right Section: Participants and Request Button -->
@@ -465,7 +457,7 @@
                     <button class="like-btn d-flex align-items-center">
                         <i class="bi bi-hand-thumbs-up mx-2"></i> 3
                     </button>
-                    <button class="more-btn">More ▼</button>
+                    <button class="more-btn" onclick="showDetail('{{ post.id }}')">Show More ▼</button>
                 </div>
             </div>
             
@@ -473,6 +465,56 @@
         {% else %}
             <p>You have no stocks in your watchlist.</p>
         {% endif %}
+
+        <div class="detailed-view" id="detailed-view" style="display: none;">
+            <button class="back-btn" onclick="showPostsList()">Back to Projects</button>
+            <!-- Post Header: User Icon, Name, Date, Participants, Request -->
+            <div class="post-header d-flex justify-content-between align-items-center">
+                <!-- Left Section: User Icon and Info -->
+                <div class="user-info d-flex align-items-center">
+                    <img src="path/to/user-icon.jpg" class="user-image rounded-circle" alt="User Icon">
+                    <div class="name-time ml-3">
+                        <span class="username">Username</span>
+                        <span class="date-posted">Date Posted: Oct. 8, 2024</span>
+                    </div>
+                </div>
+        
+                <!-- Right Section: Participants and Request Button -->
+                <div class="post-actions d-flex align-items-center">
+                    <span class="participants">4/8</span>
+                    <button class="join-btn mx-3">Request</button>
+                </div>
+            </div>
+        
+            <!-- Project Title -->
+            <div class="post-title">
+                Project Title: A Cool Project
+            </div>
+        
+            <!-- Bullet-point Description -->
+            <div class="post-desc">
+                <ul>
+                    <li>This is my test project</li>
+                    <li>I want to do blah blah blah</li>
+                    <li>Details of the project...</li>
+                </ul>
+            </div>
+        
+            <!-- Skills -->
+            <div class="skills d-flex">
+                <span class="skill">Python</span>
+                <span class="skill">Django</span>
+                <span class="skill">React</span>
+                <span class="skill">SQL</span>
+            </div>
+        
+            <!-- Post Footer: Like Button and More Button -->
+            <div class="post-footer d-flex justify-content-between align-items-center">
+                <button class="like-btn d-flex align-items-center">
+                    <i class="bi bi-hand-thumbs-up mx-2"></i> 3
+                </button>
+        </div>
+
     </div>
 
     <!-- Bootstrap JS and Popper.js -->
@@ -485,18 +527,19 @@
 
         // Function to show detailed view
         function showDetail(postId) {
-    // Hide all posts
-    document.getElementById('posts-list').style.display = 'none';
+    // Hide all post containers
+    const postContainers = document.querySelectorAll('.post-container');
+    postContainers.forEach(post => post.style.display = 'none');
+
+    // Show the detailed view
+    const detailedView = document.getElementById('detailed-view');
+    detailedView.style.display = 'block';
 
     // Get the post details dynamically by ID
     const postElement = document.getElementById('post-' + postId);
     const postTitle = postElement.querySelector('.post-title').textContent;
     const postDescription = postElement.querySelector('.post-desc').textContent;
     const postSkills = Array.from(postElement.querySelectorAll('.skill')).map(skill => skill.textContent);
-
-    // Show the detailed view
-    const detailedView = document.getElementById('detailed-view');
-    detailedView.style.display = 'block';
 
     // Fill in the detailed view content
     document.getElementById('detailed-title').textContent = postTitle;
@@ -513,6 +556,14 @@
 }
         </script>
     <script>
+        function showPostsList() {
+    // Hide the detailed view
+    document.getElementById('detailed-view').style.display = 'none';
+
+    // Show all post containers again
+    const postContainers = document.querySelectorAll('.post-container');
+    postContainers.forEach(post => post.style.display = 'block');
+}
         // Dropdown functionality for hamburger
         const hamburger = document.getElementById('hamburger');
         const dropdown = document.getElementById('dropdown');
