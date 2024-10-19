@@ -395,7 +395,7 @@
     </div>
 
     <!-- Main Content -->
-    <!-- Main Content -->
+<!-- Main Content -->
 <div class="content">
     <!-- Scrollable Category Bar -->
     <div class="category-bar">
@@ -445,56 +445,41 @@
             </div>
         
             <!-- Hidden Bio Section -->
-            <div class="post-bio" id="post-bio-{{ post.id }}" style="display: none; margin-top: 10px;">
+            <div class="post-bio" id="post-bio-{{ post.post.id }}" style="display: none; margin-top: 10px;">
                 <strong>Bio:</strong>
                 <p>{{ post.post.bio }}</p>
             </div>
         
             <!-- Post Footer: Like Button and More Button -->
             <div class="post-footer d-flex justify-content-between align-items-center">
-                <button class="like-btn d-flex align-items-center">
-                    <i class="bi bi-hand-thumbs-up mx-2"></i> 3
-                </button>
-                <button class="more-btn" onclick="toggleBio('{{ post.id }}')">Show More ▼</button>
+                <button class="more-btn" onclick="toggleBio('{{ post.post.id }}')">Show More ▼</button>
             </div>
         </div>
         {% endfor %}
     {% else %}
-        <p>You have no stocks in your watchlist.</p>
+        <p>You have no posts in your watchlist.</p>
     {% endif %}
 </div>
+
+<!-- JavaScript -->
+<script>
+    function toggleBio(postId) {
+        const bioSection = document.getElementById('post-bio-' + postId);
+        
+        if (bioSection.style.display === 'none' || bioSection.style.display === '') {
+            // Expand the bio section
+            bioSection.style.display = 'block';
+        } else {
+            // Collapse the bio section
+            bioSection.style.display = 'none';
+        }
+    }
+</script>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     <script>
-        // Dropdown functionality for hamburger
-        const postsList = document.getElementById('posts-list');
-        const detailedView = document.getElementById('detailed-view');
-
-
-        function toggleBio(postId) {
-    const bioSection = document.getElementById('post-bio-' + postId);
-    
-    if (bioSection.style.display === 'none' || bioSection.style.display === '') {
-        // Expand the bio section
-        bioSection.style.display = 'block';
-    } else {
-        // Collapse the bio section
-        bioSection.style.display = 'none';
-    }
-}
-
-        </script>
-    <script>
-        function showPostsList() {
-    // Hide the detailed view
-    document.getElementById('detailed-view').style.display = 'none';
-
-    // Show all post containers again
-    const postContainers = document.querySelectorAll('.post-container');
-    postContainers.forEach(post => post.style.display = 'block');
-}
         // Dropdown functionality for hamburger
         const hamburger = document.getElementById('hamburger');
         const dropdown = document.getElementById('dropdown');
