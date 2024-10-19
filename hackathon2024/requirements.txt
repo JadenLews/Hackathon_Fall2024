@@ -1,0 +1,3 @@
+asgiref==3.8.1
+Django
+sqlparse==0.5.1
