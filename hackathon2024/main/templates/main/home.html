@@ -421,6 +421,14 @@
                             <span class="username">Username</span>
                             <span class="date-posted">Date Posted: Oct. 8, 2024</span>
                         </div>
+
+                        <!-- Like Button -->
+                        <button class="like-btn d-flex align-items-center mt-2">
+                            <i class="bi bi-hand-thumbs-up mx-2"></i> {{ post.likes }}
+                        </button>
+
+                        <!-- Show More Button -->
+                        <button class="show-more-btn btn btn-link" onclick="showDetail('{{ post.id|escapejs }}')">Show More</button>
                     </div>
             
                     <!-- Right Section: Participants and Request Button -->
@@ -470,6 +478,40 @@
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
+    <script>
+        // Dropdown functionality for hamburger
+        const postsList = document.getElementById('posts-list');
+        const detailedView = document.getElementById('detailed-view');
+
+        // Function to show detailed view
+        function showDetail(postId) {
+    // Hide all posts
+    document.getElementById('posts-list').style.display = 'none';
+
+    // Get the post details dynamically by ID
+    const postElement = document.getElementById('post-' + postId);
+    const postTitle = postElement.querySelector('.post-title').textContent;
+    const postDescription = postElement.querySelector('.post-desc').textContent;
+    const postSkills = Array.from(postElement.querySelectorAll('.skill')).map(skill => skill.textContent);
+
+    // Show the detailed view
+    const detailedView = document.getElementById('detailed-view');
+    detailedView.style.display = 'block';
+
+    // Fill in the detailed view content
+    document.getElementById('detailed-title').textContent = postTitle;
+    document.getElementById('detailed-description').textContent = postDescription;
+
+    // Populate skills in the detailed view
+    const skillsList = document.getElementById('detailed-skills');
+    skillsList.innerHTML = ''; // Clear previous skills
+    postSkills.forEach(skill => {
+        const li = document.createElement('li');
+        li.textContent = skill;
+        skillsList.appendChild(li);
+    });
+}
+        </script>
     <script>
         // Dropdown functionality for hamburger
         const hamburger = document.getElementById('hamburger');

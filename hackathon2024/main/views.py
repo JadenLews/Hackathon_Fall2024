@@ -2,10 +2,26 @@ from django.shortcuts import render, redirect
 from .models import ProjectPost
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from .models import Profile, ProjectPost
 from .models import Profile
 # Create your views here.
+@login_required
 def portfolio_page(request):
-    return render(request, "main/portfolio.html")
+    # Ensure the user has a profile
+    if not hasattr(request.user, 'profile'):
+        Profile.objects.create(user=request.user)
+
+    # Fetch the user's posts if applicable
+    user_posts = ProjectPost.objects.filter(user=request.user)
+
+    context = {
+        'user': request.user,
+        'profile': request.user.profile,
+        'posts': user_posts,
+    }
+
+    return render(request, "main/portfolio.html", context)
+
 
 def home(request):
     # Fetch all posts from the database
