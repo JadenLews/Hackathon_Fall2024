@@ -27,7 +27,8 @@ urlpatterns = [
     path("home/", main_views.home, name="home"),
     path("main/", include("main.urls")),
     path("", lambda req: redirect('home/')),
-    path("profile/", main_views.profile, name="profile"),  # Add the view function here
+    path("profile/", main_views.profile, name="profile"), 
+     path("portfolio/", main_views.portfolio_page, name="profile"), 
 ]
 
 

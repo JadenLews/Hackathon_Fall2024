@@ -18,6 +18,10 @@
 
         /* Navigation Bar */
         .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -298,6 +302,7 @@
             background-color: #2e2e3e;
             border-radius: 5px;
             margin-bottom: 20px; /* Add some spacing */
+            margin-top: 50px;
         }
 
         .category-bar button {
@@ -446,10 +451,9 @@
             
                 <!-- Skills -->
                 <div class="skills d-flex">
-                    <span class="skill">Python</span>
-                    <span class="skill">Django</span>
-                    <span class="skill">React</span>
-                    <span class="skill">SQL</span>
+                    {% for skill in post.skills %}
+                        <span class="skill">{{ skill }}</span>
+                    {% endfor %}
                 </div>
             
                 <!-- Post Footer: Like Button and More Button -->
