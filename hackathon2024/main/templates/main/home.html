@@ -341,48 +341,109 @@
             <button>Art</button>
         </div>
 
-        {% if posts %}
-            {% for post in posts %}
-                <!-- Post Box -->
-                <div class="post-container">
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="path/to/image" class="img-fluid rounded-circle" alt="User Image">
-                            <div class="name-time">
-                                <span>{{ post.user }}</span>
-                                <span>{{ post.date }}</span>
+
+
+        
+
+        <div id="posts-list">
+            {% if posts %}
+                {% for post in posts %}
+                    <!-- Post Box -->
+                    <div class="post-container" id="post-{{ post.id }}">
+                        <div class="post-header">
+                            <div class="user-info">
+                                <img src="path/to/image" class="img-fluid rounded-circle" alt="User Image">
+                                <div class="name-time">
+                                    <span>{{ post.user }}</span>
+                                    <span>{{ post.date }}</span>
+                                </div>
+                            </div>
+                            <div class="post-actions">
+                                <span>{{ post.workers }}/{{ post.maxworkers }}</span>
+                                <button class="join-btn mx-2">Request</button>
                             </div>
                         </div>
-                        <div class="post-actions">
-                            <span>{{ post.current_people }}/{{ post.max_people }}</span>
-                            <button class="join-btn mx-2">Request</button>
+
+                        <div class="post-title">{{ post.title }}</div>
+                        <div class="post-desc">{{ post.description }}</div>
+
+                        <!-- Skills -->
+                        <div class="skills d-flex flex-wrap">
+                            {% for skill in post.skills %}
+                                <span class="skill">{{ skill }}</span>
+                            {% endfor %}
                         </div>
+
+                        <!-- Like Button -->
+                        <button class="like-btn d-flex align-items-center mt-2">
+                            <i class="bi bi-hand-thumbs-up mx-2"></i> {{ post.likes }}
+                        </button>
+
+                        <!-- Show More Button -->
+                        <button class="show-more-btn btn btn-link" onclick="showDetail('{{ post.id|escapejs }}')">Show More</button>
                     </div>
+                {% endfor %}
+            {% else %}
+                <p>No projects available.</p>
+            {% endif %}
+        </div>
 
-                    <div class="post-title">{{ post.title }}</div>
-                    <div class="post-desc">{{ post.description }}</div>
-
-                    <!-- Skills -->
-                    <div class="skills d-flex flex-wrap">
-                        {% for skill in post.skills %}
-                            <span class="skill">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
-
-                    <!-- Like Button -->
-                    <button class="like-btn d-flex align-items-center mt-2">
-                        <i class="bi bi-hand-thumbs-up mx-2"></i> {{ post.likes }}
-                    </button>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>You have no stocks in your watchlist.</p>
-        {% endif %}
+        <!-- Detailed View (Initially Hidden) -->
+        <div class="detailed-view" id="detailed-view">
+            <button class="back-btn" onclick="showPostsList()">Back to Projects</button>
+            <script>
+                function showPostsList() {
+                    // Show the posts list again
+                    document.getElementById('posts-list').style.display = 'block';
+                    // Hide the detailed view
+                    document.getElementById('detailed-view').style.display = 'none';
+                }
+                </script>
+            <h2 id="detailed-title"></h2>
+            <p id="detailed-description"></p>
+            <h4>Skills:</h4>
+            <ul id="detailed-skills"></ul>
+            <button class="join-btn">Request to Join</button>
+        </div>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
+    <script>
+        // Dropdown functionality for hamburger
+        const postsList = document.getElementById('posts-list');
+        const detailedView = document.getElementById('detailed-view');
+
+        // Function to show detailed view
+        function showDetail(postId) {
+    // Hide all posts
+    document.getElementById('posts-list').style.display = 'none';
+
+    // Get the post details dynamically by ID
+    const postElement = document.getElementById('post-' + postId);
+    const postTitle = postElement.querySelector('.post-title').textContent;
+    const postDescription = postElement.querySelector('.post-desc').textContent;
+    const postSkills = Array.from(postElement.querySelectorAll('.skill')).map(skill => skill.textContent);
+
+    // Show the detailed view
+    const detailedView = document.getElementById('detailed-view');
+    detailedView.style.display = 'block';
+
+    // Fill in the detailed view content
+    document.getElementById('detailed-title').textContent = postTitle;
+    document.getElementById('detailed-description').textContent = postDescription;
+
+    // Populate skills in the detailed view
+    const skillsList = document.getElementById('detailed-skills');
+    skillsList.innerHTML = ''; // Clear previous skills
+    postSkills.forEach(skill => {
+        const li = document.createElement('li');
+        li.textContent = skill;
+        skillsList.appendChild(li);
+    });
+}
+        </script>
     <script>
         // Dropdown functionality for hamburger
         const hamburger = document.getElementById('hamburger');
