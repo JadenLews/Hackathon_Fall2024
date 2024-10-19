@@ -1,11 +1,34 @@
-version: '3'
+
+
+volumes:
+  django-gen:
+  django-socket:
+  postgres-data:
+  postgres-socket:
 
 services:
+  django:
+    build: "."
+    environment:
+      - DJANGO_DEBUG
+      - DJANGO_PUBLIC_HOSTNAME
+      - DJANGO_SECRET_KEY
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    restart: unless-stopped
+    volumes:
+      - "./django:/usr/src/django"
+      - "django-socket:/var/www/uwsgi"
+      - "django-gen:/gen"
+      - "postgres-socket:/var/run/postgresql"
+      
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-      - ./media:/app/media  # Ensure this is indented correctly and in proper YAML format
     ports:
       - "8000:8000"
+    container_name: django
+
