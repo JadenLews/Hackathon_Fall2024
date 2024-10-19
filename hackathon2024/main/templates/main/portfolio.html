@@ -3,68 +3,91 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}My Personal Portfolio{% endblock title %}</title>
-    <!-- Google Fonts Link -->
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-        <!-- Bootstrap JS and Popper.js, loaded after content for better performance -->
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    {% load static %} <!-- Correct placement of loading static files -->
-    
-    <!-- Include Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Your custom CSS, loaded after Bootstrap for overriding styles -->
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Load custom CSS -->
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
 </head>
-<body class="container">
-    <div class="container mt-5">
-        <!-- Project Post Box -->
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h2 class="card-title">Campus eBay - Item Exchange Platform</h2>
-                        <p class="card-text">
-                            This project aims to build an online marketplace for students on campus to exchange items they no longer need. The platform will allow users to post listings, negotiate prices, and arrange for item pickups.
-                        </p>
+<body class="container mt-3">
 
-                        <h5>Skills Needed:</h5>
-                        <div class="mb-3">
-                            <span class="badge bg-primary">Python</span>
-                            <span class="badge bg-secondary">Django</span>
-                            <span class="badge bg-success">React</span>
-                            <span class="badge bg-warning">SQL</span>
-                        </div>
+    <!-- Background Section -->
+    <div class="bg-info p-5 position-relative">
+        <!-- Back arrow -->
+        <a href="#" class="position-absolute top-0 start-0 m-3 text-dark">
+            <i class="bi bi-arrow-left-circle fs-4"></i>
+        </a>
 
-                        <h5>Members:</h5>
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Member 1">
-                                <p class="text-center">John</p>
-                            </li>
-                            <li class="list-inline-item">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Member 2">
-                                <p class="text-center">Emma</p>
-                            </li>
-                            <li class="list-inline-item">
-                                <img src="https://via.placeholder.com/50" class="rounded-circle" alt="Member 3">
-                                <p class="text-center">David</p>
-                            </li>
-                        </ul>
+        <!-- Profile Picture -->
+        <div class="position-absolute" style="bottom: -40px; left: 30px;">
+            <img src="https://via.placeholder.com/80" class="rounded-circle border border-white" alt="Profile Picture">
+        </div>
 
-                        <a href="#" class="btn btn-primary mt-3">Join Project</a>
-                    </div>
+        <!-- Edit Button -->
+        <button class="btn btn-light position-absolute" style="top: 10px; right: 10px;">Edit</button>
+    </div>
+
+    <!-- Name and Skills Section -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="p-3 bg-light rounded shadow-sm">
+                <h3 class="text-dark">Name</h3>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="p-3 bg-light rounded shadow-sm">
+                <h3 class="text-dark">Skills</h3>
+                <div class="mb-2">
+                    <span class="badge bg-primary">Python</span>
+                    <span class="badge bg-secondary">Django</span>
+                    <span class="badge bg-success">React</span>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- About Section -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="p-3 bg-light rounded shadow-sm">
+                <h3 class="text-dark">About Section</h3>
+                <p>This section contains a brief description about yourself.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post and Experience Section -->
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="p-3 bg-light rounded shadow-sm">
+                <h3 class="text-dark">Post</h3>
+                <p>Some recent post or updates go here.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="p-3 bg-light rounded shadow-sm">
+                <h3 class="text-dark">Experience</h3>
+                <p>Previous job experiences or relevant work experience.</p>
+            </div>
+        </div>
+    </div>
+
     {% block page_content %}{% endblock page_content %}
-    
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
