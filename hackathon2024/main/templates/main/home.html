@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile View Post</title>
+    <title>Home Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <style>
+<style>
         /* Global Styles */
 /* Global Styles */
 body {
@@ -198,6 +198,7 @@ body {
 </head>
 <body>
 
+
     <!-- Navigation Bar -->
     <div class="navbar">
         <div class="hamburger" id="hamburger">☰</div>
@@ -224,72 +225,47 @@ body {
         <button>CSCI 180</button>
     </div>
 
+    {% if posts %}
+        {% for post in posts %}
     <!-- Post Box -->
     <div class="post-container">
         <div class="post-header">
             <div class="user-info">
                 <div class="user-image"></div>
                 <div class="name-time">
-                    <span>User</span>
-                    <span>Sep 24 • 10:41</span>
+                    <span>{{ post.user}}</span>
+                    <span>{{ post.date}}</span>
                 </div>
             </div>
             <div class="post-actions">
-                <span><i class="bi bi-people"></i> 5</span>
+                <span><i class="bi bi-people"></i> {{ post.workers}}</span>
                 <button class="join-btn">Join</button>
             </div>
         </div>
 
-        <div class="post-title">Title</div>
+        <div class="post-title">{{ post.title}}</div>
         <div class="post-desc">
-            Desc.....,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,jsdklfsjdfsdjklf...
+            {{ post.description}}
         </div>
 
         <!-- Skills -->
         <div class="skills">
-            <span class="skill">python</span>
-            <span class="skill">Object Oriented Programming</span>
-            <span class="skill">AWS</span>
-            <span class="skill">SQL</span>
-            <span class="skill">Music Theory</span>
+            <!-- Loop through skills if stored as JSON -->
+            {% for skill in post.skills %}
+                <span class="skill">{{ skill }}</span>
+            {% endfor %}
         </div>
 
         <!-- Like Button -->
-        <button class="like-btn"><i class="bi bi-arrow-up"></i> 23</button>
+        <button class="like-btn"><i class="bi bi-arrow-up"></i> {{ post.likes}}</button>
     </div>
 
-    <div class="post-container">
-        <div class="post-header">
-            <div class="user-info">
-                <div class="user-image"></div>
-                <div class="name-time">
-                    <span>User</span>
-                    <span>Sep 24 • 10:41</span>
-                </div>
-            </div>
-            <div class="post-actions">
-                <span><i class="bi bi-people"></i> 5</span>
-                <button class="join-btn">Join</button>
-            </div>
-        </div>
 
-        <div class="post-title">Title</div>
-        <div class="post-desc">
-            Desc.....,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,jsdklfsjdfsdjklf...
-        </div>
 
-        <!-- Skills -->
-        <div class="skills">
-            <span class="skill">python2</span>
-            <span class="skill">Object Oriented Programming2</span>
-            <span class="skill">AW2S</span>
-            <span class="skill">SQL2</span>
-            <span class="skill">Music Theory2</span>
-        </div>
-
-        <!-- Like Button -->
-        <button class="like-btn"><i class="bi bi-arrow-up"></i> 23</button>
-    </div>
+    {% endfor %}
+    {% else %}
+        <p>You have no stocks in your watchlist.</p>
+    {% endif %}
 
     <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
