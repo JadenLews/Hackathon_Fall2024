@@ -212,7 +212,7 @@ def search(request):
     query = request.GET.get("q")
     
     # Filter posts based on the search query
-    results = ProjectPost.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(description_long__icontains=query))
+    results = ProjectPost.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(description_long__icontains=query) | Q(categories__icontains=query) | Q(skills__icontains=query))
     
     # Prepare the results with the associated profiles
     results_with_profiles = []
