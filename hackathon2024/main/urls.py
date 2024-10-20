@@ -13,4 +13,12 @@ urlpatterns = [
     path("templates/main/signup.html", views.signup, name="signup"),
     path("templates/main/login/", views.login_view, name="login_view"),
     path("templates/main/signup/", views.signup_view, name="signup_view"),
-   path('save-social-links/', views.save_social_links, name='save_social_links') ]
+   path('save-social-links/', views.save_social_links, name='save_social_links'),
+    path("search/", views.search, name="search"),
+     path("search_results", views.search_results, name="search_results"),
+     path(
+        "templates/main/logout/",
+        auth_views.LogoutView.as_view(next_page="home"),
+        name="logout",
+    ),
+       ]

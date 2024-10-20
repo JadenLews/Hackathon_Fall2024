@@ -13,6 +13,7 @@ from django.db.models import Avg
 from django.http import HttpResponseNotFound
 from django.utils import timezone
 from django.http import HttpResponse
+from django.db.models import Q
 
 
 def login(request):
@@ -193,3 +194,33 @@ def portfolio_page2(request, username):
     }
 
     return render(request, "main/portfolio.html", context)
+
+
+def search(request):
+    query = request.GET.get("q")
+    
+    # Filter posts based on the search query
+    results = ProjectPost.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(description_long__icontains=query))
+    
+    # Prepare the results with the associated profiles
+    results_with_profiles = []
+    for post in results:
+        try:
+            profile = Profile.objects.get(user=post.user)  # Get profile for each post's user
+        except Profile.DoesNotExist:
+            profile = None  # In case the user has no profile
+
+        results_with_profiles.append({
+            'post': post,
+            'profile_image': profile.profile_image.url if profile and profile.profile_image else None
+        })
+    
+    context = {
+        'results': results_with_profiles,
+        'query': query,
+    }
+    
+    return render(request, "main/search_results.html", context)
+
+def search_results(request):
+    return render(request, "main/search_results.html")

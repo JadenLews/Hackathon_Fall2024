@@ -61,20 +61,63 @@
             z-index: 2;
         }
 
-        .btn {
-            background-color: #3d73c6;
-            border-radius: 30px;
-            max-width: 200px;
-            font-weight: 700;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            padding: 10px 20px;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-            z-index: 3;
-            position: relative;
-        }
+        .btn-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    gap: 20px;               
+    max-width: 400px;        
+    margin-top: 20px;
+}
+
+
+.btn1 {
+    background-color: #42a5f5;
+    border-radius: 30px;
+    max-width: 200px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 20px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    z-index: 3;
+    position: relative;
+}
+
+.btn1 a {
+    text-decoration: none;
+    color: white;
+}
+
+.btn1:hover {
+    background-color: #1e88e5;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.6);
+    transform: scale(1.05);
+}
+
+
+.btn2 {
+    background-color: #e53935;
+    border-radius: 30px;
+    max-width: 200px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 20px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    z-index: 3;
+    position: relative;
+}
+
+.btn2:hover {
+    background-color: #e53935;
+    box-shadow: 0 4px 8px rgba(239, 83, 80, 0.6);
+    transform: scale(1.05);
+}
 
         .btn:hover {
             background-color: #355e9c;
@@ -126,12 +169,21 @@
         <a href="/home" class="back-arrow">
             <i class="bi bi-arrow-left-circle fs-4"></i>
         </a>
-        <img src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}{% static 'images/brocoli.jpg' %}{% endif %}" 
+        <img src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}{% static 'images/icon.png' %}{% endif %}" 
              class="profile-picture mb-3" alt="Profile Picture">
         <h1>Hi, I'm {{ profile.user.username }}!</h1>
 
         <!-- Clickable Button -->
-        <a href="/profile" class="btn btn-primary mt-3">Go to Profile</a>
+        <div class="btn-container">
+            <form action="javascript:void(0)">
+                <a href="/profile" class="btn1">Edit Profile</a>
+                <form action="{% url 'logout' %}" method="post">
+            </form>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn2">Log Out</button>
+            </form></button>
+        </div>
     </div>
 
     <!-- Name and Skills Section -->
