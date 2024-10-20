@@ -95,6 +95,8 @@ def portfolio_page(request):
 from django.shortcuts import render
 from .models import ProjectPost, Profile
 
+from .models import Notifications
+
 def home(request):
     # Fetch all posts with related user profiles
     posts = ProjectPost.objects.all()
@@ -112,9 +114,19 @@ def home(request):
             'profile_image': profile.profile_image.url if profile and profile.profile_image else None
         })
 
+    # Fetch notifications for the logged-in user (if logged in)
+    if request.user.is_authenticated:
+        user_profile = Profile.objects.get(user=request.user)  # Get the current user's profile
+        # Filter out notifications with 'accepted' status and only get pending or rejected
+        notifications = Notifications.objects.filter(post_owner=user_profile).exclude(status='accepted')  
+    else:
+        notifications = []  # No notifications if the user is not logged in
+
     context = {
         'posts': posts_with_profiles,
+        'notifications': notifications,  # Pass the filtered notifications to the template
     }
+
     return render(request, "main/home.html", context)
 
 
@@ -224,3 +236,47 @@ def search(request):
 
 def search_results(request):
     return render(request, "main/search_results.html")
+
+@login_required
+def request_to_join(request, post_id):
+    # Get the post and its owner
+    post = get_object_or_404(ProjectPost, id=post_id)
+    post_owner = get_object_or_404(Profile, user=post.user)
+    
+    # Get the requestor (logged-in user's profile)
+    requestor = get_object_or_404(Profile, user=request.user)
+    
+    # Create the notification
+    notification = Notifications.objects.create(
+        requestor=requestor,
+        post_owner=post_owner,
+        post=post,
+        status='pending'
+    )
+    
+    # Redirect back to the home page or a success page
+    return redirect('home')
+
+
+@login_required
+def accept_request(request, notification_id):
+    # Get the notification object
+    notification = get_object_or_404(Notifications, id=notification_id)
+    
+    # Ensure the current user is the post owner
+    if notification.post_owner.user == request.user:
+        notification.status = 'accepted'
+        notification.save()
+
+    return redirect('home')  # Redirect back to home or wherever you want
+
+@login_required
+def reject_request(request, notification_id):
+    # Get the notification object
+    notification = get_object_or_404(Notifications, id=notification_id)
+
+    # Ensure the current user is the post owner
+    if notification.post_owner.user == request.user:
+        notification.delete()  # Delete the notification object
+
+    return redirect('home')

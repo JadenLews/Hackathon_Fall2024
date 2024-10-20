@@ -30,7 +30,10 @@ urlpatterns = [
     path("profile/", main_views.profile, name="profile"), 
     path("portfolio2/", main_views.portfolio_page, name="profile"), 
     path('create-project/', main_views.create_project_post, name='create-project'),
-    path('portfolio/<str:username>/', main_views.portfolio_page2, name='portfolio')
+    path('portfolio/<str:username>/', main_views.portfolio_page2, name='portfolio'),
+    path('request-to-join/<int:post_id>/', main_views.request_to_join, name='request_to_join'),
+    path('accept-request/<int:notification_id>/', main_views.accept_request, name='accept_request'),
+    path('reject-request/<int:notification_id>/', main_views.reject_request, name='reject_request'),
 ]
 
 

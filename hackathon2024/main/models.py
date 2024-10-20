@@ -29,3 +29,12 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
     
+class Notifications(models.Model):
+    requestor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='requestor')
+    post_owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='post_owner')
+    post = models.ForeignKey(ProjectPost, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.requestor} requested to join {self.post.title} (Status: {self.status})'
