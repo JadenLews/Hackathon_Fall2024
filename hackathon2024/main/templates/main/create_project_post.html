@@ -1,0 +1,589 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #1c1c28;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #2e2e3e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #3d73c6;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-control {
+            background-color: #2e2e3e;
+            color: #e0e0e0;
+            border: 1px solid #3e3e50;
+        }
+
+        .form-control:focus {
+            background-color: #2e2e3e;
+            border-color: #3d73c6;
+            box-shadow: none;
+        }
+
+        .form-label {
+            color: #e0e0e0;
+        }
+
+        .btn-primary {
+            background-color: #3d73c6;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #355e9c;
+        }
+
+        .form-text {
+            color: #b0b0b0;
+        }
+
+
+
+
+
+
+
+
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c28; /* Dark background */
+            color: #e0e0e0; /* Light text for contrast */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #242434;
+            padding: 10px;
+            border-bottom: 2px solid #3e3e50;
+        }
+
+        .navbar .hamburger {
+            cursor: pointer;
+            font-size: 24px;
+            color: #e0e0e0;
+        }
+
+        .navbar input[type="search"] {
+            width: 100%;
+            max-width: 600px;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Centering search bar */
+        .search-bar-container {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .navbar-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-icons i {
+            font-size: 24px;
+            margin-left: 15px;
+            cursor: pointer;
+            color: #b0b0b0;
+        }
+
+        /* Notification Dropdown */
+        .dropdown-menu-notification {
+            display: none;
+            position: fixed;
+            right: 0;
+            top: 58px;
+            width: 350px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 15px;
+            color: #000;
+        }
+
+        .dropdown-menu-notification.active {
+            display: block;
+        }
+
+        /* Tabs for Notifications and Messages */
+        .tab-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-nav button {
+            background: none;
+            border: none;
+            color: #000;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .tab-nav button.active {
+            border-bottom: 3px solid #3d73c6;
+            color: #3d73c6;
+        }
+
+        /* Notification/Message Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .notification-message {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .empty-state-img {
+            display: block;
+            margin: 20px auto;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .hover-line {
+            height: 3px;
+            width: 100px;
+            background-color: #3d73c6;
+            display: inline-block;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            transition: all 0.3s;
+        }
+        
+        .tab-nav button:hover .hover-line,
+        .tab-nav button.active .hover-line {
+            background-color: #3d73c6;
+            width: 100%;
+        }
+
+        /* Sidebar under Navbar and next to content */
+        .sidebar {
+            background-color: #242434;
+            padding: 15px;
+            width: 250px;
+            height: calc(100vh - 50px); /* Subtract navbar height */
+            position: fixed;
+            top: 58px; /* Below the navbar */
+            left: 0;
+            overflow-y: auto;
+            border-right: 2px solid #3e3e50;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add shadow for clarity */
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #b0b0b0;
+            text-decoration: none;
+            border-bottom: 1px solid #3e3e50; /* Border between sidebar items */
+        }
+
+        .sidebar a:hover {
+            background-color: #2e2e3e;
+        }
+
+        /* Content next to sidebar */
+        .content {
+            margin-left: 250px; /* Make space for sidebar */
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: #1c1c28; /* Make the content background match */
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        /* Add a border and spacing for clarity */
+        .post-container {
+            position: relative;
+            background-color: #242434;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #3e3e50;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px; /* Reduced margin */
+        }
+
+        .user-image {
+            width: 40px; /* Reduced size */
+            height: 40px; /* Reduced size */
+            margin-right: 10px;
+        }
+
+        .name-time {
+            display: flex;
+            flex-direction: column;
+            color: #e0e0e0;
+            font-size: 14px; /* Make the text a bit smaller */
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+        }
+
+        .post-title {
+            font-size: 18px; /* Slightly smaller */
+            font-weight: bold;
+            margin-bottom: 8px; /* Reduced margin */
+            color: white;
+            text-align: left; /* Align title to the left */
+        }
+
+        .post-desc ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 10px; /* Reduced margin */
+            color: #d3d3d3;
+        }
+
+        .skills {
+            display: flex;
+            gap: 8px; /* Reduced gap */
+            margin-bottom: 5px; /* Reduced margin */
+        }
+
+        .skill {
+            background-color: #3e3e50;
+            color: #c4c4ff;
+            padding: 5px 8px; /* Reduced padding */
+            border-radius: 5px;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px; /* Reduced margin */
+        }
+
+
+        .more-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: 1px solid #3d73c6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* Responsive Sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* Hide sidebar on smaller screens */
+            }
+
+            .content {
+                margin: 0; /* Remove margin when sidebar is hidden */
+                width: 100%; /* Expand content to full width */
+            }
+        }
+
+        /* Scrollable Category Bar */
+        .category-bar {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px;
+            background-color: #2e2e3e;
+            border-radius: 5px;
+            margin-bottom: 20px; /* Add some spacing */
+            margin-top: 50px;
+        }
+
+        .category-bar button {
+            background-color: #3d73c6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Dropdown menu styles for mobile */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            background-color: #242434;
+            padding: 10px;
+            border-top: 1px solid #3e3e50;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px;
+            color: #b0b0b0;
+            text-decoration: none;
+            border-bottom: 1px solid #3e3e50;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #2e2e3e;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="hamburger d-md-none" id="hamburger">☰</div> <!-- Burger for small screens -->
+
+        <!-- Search bar centered -->
+        <div class="search-bar-container">
+            <input type="search" placeholder="Search..." class="form-control">
+        </div>
+
+        <div class="navbar-icons d-flex align-items-center">
+            <i class="bi bi-bell" id="notification-icon"></i>
+            <i class="bi bi-person" id="profile-icon" data-logged-in="{{ user.is_authenticated }}"></i>
+        </div>
+    </div>
+
+    <!-- Notification Dropdown -->
+    <div class="dropdown-menu-notification" id="notification-dropdown">
+        <!-- Tabs for Notifications and Messages -->
+        <div class="tab-nav">
+            <button id="notifications-tab" class="active">
+                Notifications
+                <div class="hover-line"></div>
+            </button>
+            <button id="messages-tab">
+                Messages
+                <div class="hover-line"></div>
+            </button>
+        </div>
+
+        <!-- Notifications Content -->
+        <div id="notifications-content" class="tab-content active">
+            <!-- image to make it not as empty-->
+            <!-- <img src="https://www.redditinc.com/assets/images/site/reddit-logo.png" alt="Notification Logo" class="empty-state-img"> -->
+            <p class="notification-title">You don't have any activity yet</p>
+            <p class="notification-message">That's okay, maybe you just need the right inspiration.</p>
+        </div>
+
+        <!-- Messages Content -->
+        <div id="messages-content" class="tab-content">
+            <p class="notification-title">You don't have any messages</p>
+            <p class="notification-message">It looks like your inbox is empty.</p>
+        </div>
+    </div>
+
+    <!-- Sidebar under navbar and next to content -->
+    <div class="sidebar d-none d-md-block">
+        <a href="#"><i class="bi bi-house"></i> Home</a>
+        <a href="#"><i class="bi bi-people"></i> Joined Projects</a>
+    </div>
+
+    <!-- Dropdown Menu for mobile -->
+    <div class="dropdown-menu" id="dropdown">
+        <a href="#"><i class="bi bi-house"></i> Home</a>
+        <a href="#"><i class="bi bi-people"></i> Joined Projects</a>
+    </div>
+
+<!-- Main Content -->
+<div class="content">
+    <div class="container">
+        <h1>Create a Project Post</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="title" class="form-label">Project Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter project title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Short Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter a short description"></textarea>
+                <div class="form-text">Enter a concise overview of the project.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description_long" class="form-label">Detailed Description</label>
+                <textarea class="form-control" id="description_long" name="description_long" rows="5" placeholder="Provide more details about the project"></textarea>
+                <div class="form-text">Provide more comprehensive details about the project goals and features.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="skills" class="form-label">Skills</label>
+                <input type="text" class="form-control" id="skills" name="skills" placeholder="Enter skills separated by commas">
+                <div class="form-text">List the skills required for this project, e.g., Python, Django, React.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="categories" class="form-label">Categories</label>
+                <input type="text" class="form-control" id="categories" name="categories" placeholder="Enter categories separated by commas">
+                <div class="form-text">Enter relevant categories for this project, e.g., Web Development, AI, Machine Learning.</div>
+            </div>
+
+            <!-- Add a date field for project creation date -->
+            <div class="mb-3">
+                <label for="date" class="form-label">Project Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    
+</div>
+
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        function toggleBio(postId) {
+            const bioSection = document.getElementById('post-bio-' + postId);
+                
+            if (bioSection.style.display === 'none' || bioSection.style.display === '') {
+                // Expand the bio section
+                bioSection.style.display = 'block';
+            } else {
+                // Collapse the bio section
+                bioSection.style.display = 'none';
+            }
+        }
+
+        // Account direction
+        const profileIcon = document.getElementById('profile-icon');
+        const isLoggedIn = profileIcon.getAttribute('data-logged-in') === 'True';
+
+        profileIcon.addEventListener('click', function() {
+            if (isLoggedIn) {
+                window.location.href = '/portfolio';  // Redirect to profile page
+            } else {
+                window.location.href = "{% url 'login' %}";  // Redirect to login page
+            }
+        });
+
+        // Dropdown functionality for hamburger
+        const hamburger = document.getElementById('hamburger');
+        const dropdown = document.getElementById('dropdown');
+
+        // Open/Close the dropdown menu on click
+        hamburger.addEventListener('click', function() {
+            dropdown.classList.toggle('active');
+        });
+
+        // Close the dropdown menu if clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dropdown.contains(event.target) && !hamburger.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Notification Dropdown Toggle
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        notificationIcon.addEventListener('click', function() {
+            notificationDropdown.classList.toggle('active');
+        });
+
+        // Close the dropdown if clicking outside or double-clicking the notification icon
+        document.addEventListener('click', function(event) {
+            if (!notificationDropdown.contains(event.target) && !notificationIcon.contains(event.target)) {
+                notificationDropdown.classList.remove('active');
+            }
+        });
+
+        // Tab Switching Logic
+        const notificationsTab = document.getElementById('notifications-tab');
+        const messagesTab = document.getElementById('messages-tab');
+        const notificationsContent = document.getElementById('notifications-content');
+        const messagesContent = document.getElementById('messages-content');
+
+        notificationsTab.addEventListener('click', function() {
+            notificationsTab.classList.add('active');
+            messagesTab.classList.remove('active');
+            notificationsContent.classList.add('active');
+            messagesContent.classList.remove('active');
+        });
+
+        messagesTab.addEventListener('click', function() {
+            messagesTab.classList.add('active');
+            notificationsTab.classList.remove('active');
+            messagesContent.classList.add('active');
+            notificationsContent.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

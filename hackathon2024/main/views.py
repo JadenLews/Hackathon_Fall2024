@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import ProjectPost
-from .forms import UserUpdateForm, ProfileUpdateForm
+from .forms import UserUpdateForm, ProfileUpdateForm, ProjectPostForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile, ProjectPost
 from .models import Profile
@@ -156,3 +156,20 @@ def save_social_links(request):
         return redirect('profile')  # Redirect to the profile page
 
     return render(request, 'portfolio.html', {'profile': profile})
+
+@login_required
+def create_project_post(request):
+    if request.method == 'POST':
+        form = ProjectPostForm(request.POST)
+        if form.is_valid():
+            project_post = form.save(commit=False)
+            project_post.user = request.user
+            project_post.save()  # Saving the project post with all fields
+            messages.success(request, 'Project created successfully!')
+            return redirect('home')
+        else:
+            messages.error(request, 'There was an error with your form. Please check the details.')
+    else:
+        form = ProjectPostForm()
+
+    return render(request, 'main/create_project_post.html', {'form': form})
