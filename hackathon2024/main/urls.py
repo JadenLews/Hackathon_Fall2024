@@ -13,4 +13,4 @@ urlpatterns = [
     path("templates/main/signup.html", views.signup, name="signup"),
     path("templates/main/login/", views.login_view, name="login_view"),
     path("templates/main/signup/", views.signup_view, name="signup_view"),
-]
+   path('save-social-links/', views.save_social_links, name='save_social_links') ]

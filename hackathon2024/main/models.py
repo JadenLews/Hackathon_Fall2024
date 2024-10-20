@@ -23,7 +23,9 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     skills = models.JSONField(default=list, blank=True)  # Initialize to an empty list
-
+    linkedin = models.URLField(max_length=200, blank=True)  
+    git = models.URLField(max_length=200, blank=True)
+    choice_site = models.URLField(max_length=200, blank=True)
     def __str__(self):
         return f'{self.user.username} Profile'
     

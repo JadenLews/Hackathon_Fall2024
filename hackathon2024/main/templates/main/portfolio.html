@@ -11,14 +11,18 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
     <style>
+        /* Global Styles */
         body {
-            background: linear-gradient(135deg, #0f0f0f, #121212);
-            color: white;
+            background-color: #1c1c28;
+            color: #e0e0e0;
             font-family: 'IBM Plex Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         h1, h3, p, li {
-            color: white;
+            color: #e0e0e0;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
@@ -45,7 +49,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 1; /* Ensure it stays behind the button */
+            z-index: 1;
         }
 
         .profile-picture {
@@ -54,11 +58,11 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
-            z-index: 2; /* Ensure it is above the overlay */
+            z-index: 2;
         }
 
         .btn {
-            background-color: #42a5f5;
+            background-color: #3d73c6;
             border-radius: 30px;
             max-width: 200px;
             font-weight: 700;
@@ -68,25 +72,27 @@
             display: inline-block;
             padding: 10px 20px;
             transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-            z-index: 3; /* Ensure the button is on top */
+            z-index: 3;
             position: relative;
         }
 
         .btn:hover {
-            background-color: #1e88e5;
+            background-color: #355e9c;
             box-shadow: 0 4px 8px rgba(33, 150, 243, 0.6);
             transform: scale(1.05);
         }
 
         .card {
-            background-color: #1e1e1e;
+            background-color: #242434;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             margin-bottom: 15px;
+            padding: 20px;
+            border: 1px solid #3e3e50;
         }
 
         .badge {
-            background-color: #42a5f5;
+            background-color: #3d73c6;
             color: white;
             margin: 5px;
             padding: 5px 10px;
@@ -101,7 +107,15 @@
             left: 10px;
             color: white;
             font-size: 1.5rem;
-            z-index: 3; /* Ensure it is clickable */
+            z-index: 3;
+        }
+
+        .social-media-card input {
+            background-color: #2e2e3e;
+            color: white;
+            border: 1px solid #3e3e50;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -123,14 +137,14 @@
     <!-- Name and Skills Section -->
     <div class="row mt-5">
         <div class="col-12">
-            <div class="card p-4 text-center">
+            <div class="card text-center">
                 <h3>Name</h3>
                 <p>{{ profile.user.username }}</p>
             </div>
         </div>
 
         <div class="col-12 mt-3">
-            <div class="card p-4">
+            <div class="card">
                 <h3>Skills</h3>
                 <div class="d-flex flex-wrap justify-content-center">
                     {% if profile.skills %}
@@ -146,13 +160,13 @@
     </div>
 
     <!-- About Section -->
-    <div class="card p-4 mt-3">
+    <div class="card mt-3">
         <h3>About Me</h3>
         <p>{{ profile.bio }}</p>
     </div>
 
     <!-- Post Section -->
-    <div class="card p-4 mt-3">
+    <div class="card mt-3">
         <h3>My Posts</h3>
         {% if posts %}
             <ul class="list-group">
@@ -168,9 +182,41 @@
         {% endif %}
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Social Media Links Section -->
+<div class="card mt-3 social-media-card">
+    <h3>Social Media Links</h3>
+    <form method="POST" action="{% url 'save_social_links' %}">
+        {% csrf_token %}
+        <input type="url" name="twitter" class="form-control" 
+               placeholder="Twitter Profile URL" 
+               value="{{ profile.choice_site|default_if_none:'' }}">
+        
+        <input type="url" name="linkedin" class="form-control" 
+               placeholder="LinkedIn Profile URL" 
+               value="{{ profile.linkedin|default_if_none:'' }}">
+        
+        <input type="url" name="github" class="form-control" 
+               placeholder="GitHub Profile URL" 
+               value="{{ profile.git|default_if_none:'' }}">
+
+        <button type="submit" class="btn btn-primary mt-3">Save Links</button>
+    </form>
+
+    <!-- Display the Saved Links -->
+    <div class="mt-3">
+        {% if profile.choice_site %}
+            <p>Twitter: <a href="{{ profile.choice_site }}" target="_blank">{{ profile.choice_site }}</a></p>
+        {% endif %}
+        {% if profile.linkedin %}
+            <p>LinkedIn: <a href="{{ profile.linkedin }}" target="_blank">{{ profile.linkedin }}</a></p>
+        {% endif %}
+        {% if profile.git %}
+            <p>GitHub: <a href="{{ profile.git }}" target="_blank">{{ profile.git }}</a></p>
+        {% endif %}
+    </div>
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

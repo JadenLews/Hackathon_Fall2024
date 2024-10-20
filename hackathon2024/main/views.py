@@ -12,6 +12,7 @@ import random
 from django.db.models import Avg
 from django.http import HttpResponseNotFound
 from django.utils import timezone
+from django.http import HttpResponse
 
 
 def login(request):
@@ -137,3 +138,20 @@ def profile(request):
         'profile_form': profile_form,
     }
     return render(request, 'profile.html', context)
+
+@login_required
+def save_social_links(request):
+    profile = request.user.profile  # Assuming a OneToOne relationship between User and Profile
+
+    if request.method == 'POST':
+        # Get data from the form
+        profile.linkedin = request.POST.get('linkedin', '')
+        profile.git = request.POST.get('github', '')
+        profile.choice_site = request.POST.get('twitter', '')
+
+        # Save the updated profile data
+        profile.save()
+
+        return redirect('profile')  # Redirect to the profile page
+
+    return render(request, 'portfolio.html', {'profile': profile})
