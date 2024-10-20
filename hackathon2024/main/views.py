@@ -74,7 +74,7 @@ def signup_view(request):
 
     return render(request, "main/signup.html")
 # Create your views here.
-@login_required
+@login_required(login_url='/main/templates/main/login.html')
 def portfolio_page(request):
     # Ensure the user has a profile
     if not hasattr(request.user, 'profile'):
@@ -132,7 +132,7 @@ def home(request):
 
 
 
-@login_required
+@login_required(login_url='/main/templates/main/login.html')
 def profile(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -170,7 +170,7 @@ def save_social_links(request):
 
     return render(request, 'portfolio.html', {'profile': profile})
 
-@login_required
+@login_required(login_url='/main/templates/main/login.html')
 def create_project_post(request):
     if request.method == 'POST':
         form = ProjectPostForm(request.POST)
@@ -227,9 +227,23 @@ def search(request):
             'profile_image': profile.profile_image.url if profile and profile.profile_image else None
         })
     
+
+
+    # Fetch notifications for the logged-in user (if logged in)
+    if request.user.is_authenticated:
+        user_profile = Profile.objects.get(user=request.user)  # Get the current user's profile
+        # Filter out notifications with 'accepted' status and only get pending or rejected
+        notifications = Notifications.objects.filter(post_owner=user_profile).exclude(status='accepted')  
+    else:
+        notifications = []  # No notifications if the user is not logged in
+
+
+
+
     context = {
         'results': results_with_profiles,
         'query': query,
+        'notifications': notifications, 
     }
     
     return render(request, "main/search_results.html", context)
@@ -237,7 +251,7 @@ def search(request):
 def search_results(request):
     return render(request, "main/search_results.html")
 
-@login_required
+@login_required(login_url='/main/templates/main/login.html')
 def request_to_join(request, post_id):
     # Get the post and its owner
     post = get_object_or_404(ProjectPost, id=post_id)
