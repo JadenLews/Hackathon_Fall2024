@@ -1,4 +1,6 @@
 Pillow
+django-crispy-forms
 asgiref==3.8.1
 Django
 sqlparse==0.5.1
+crispy-bootstrap4

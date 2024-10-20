@@ -16,22 +16,17 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['profile_image', 'bio', 'location', 'skills']
+        fields = ['profile_image', 'bio', 'skills']
 
     def __init__(self, *args, **kwargs):
-        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-        skills = self.instance.skills
-        if not skills or skills == []:
-            self.fields['skills'].initial = ''  # If skills is empty, show empty string
-        else:
-            # Convert the list to a comma-separated string
-            self.fields['skills'].initial = ', '.join(skills)
+        super().__init__(*args, **kwargs)
+        # Initialize skills as a comma-separated string or an empty string
+        self.fields['skills'].initial = ', '.join(self.instance.skills) if self.instance.skills else ''
 
     def save(self, commit=True):
-        # Override save method to convert skills back to a list
-        instance = super(ProfileUpdateForm, self).save(commit=False)
-        skills_string = self.cleaned_data.get('skills', '')
-        instance.skills = [skill.strip() for skill in skills_string.split(',') if skill.strip()]
+        # Convert skills string to a list and save the instance
+        instance = super().save(commit=False)
+        instance.skills = [skill.strip() for skill in self.cleaned_data['skills'].split(',') if skill.strip()]
         if commit:
             instance.save()
         return instance
