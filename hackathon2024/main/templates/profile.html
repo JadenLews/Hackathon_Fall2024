@@ -10,14 +10,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1c1c28; /* Dark background */
-            color: #e0e0e0; /* Light text for contrast */
-            margin: 0;
-            padding: 0;
+.content {
+            margin-left: 250px; /* Make space for sidebar */
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: #1c1c28; /* Make the content background match */
+            transition: margin-left 0.3s ease, width 0.3s ease;
         }
 
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #1c1c28; /* Dark background */
+    color: #e0e0e0; /* Light text for contrast */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Disable horizontal scrolling */
+}
+.container {
+    background-color: #242434;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #3e3e50;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 100px;
+    width: 90%; /* Set a slightly smaller width (90% of the screen) */
+    max-width: 800px; /* Ensure it doesn't exceed 800px */
+    margin-right: auto;
+    margin-left: auto;
+}
         /* Navigation Bar */
         .navbar {
             position: fixed;
@@ -495,18 +515,11 @@
         <a href="#"><i class="bi bi-people"></i> Joined Projects</a>
     </div>
 
-<!-- Main Content -->
-<div class="content">
-    <!-- Scrollable Category Bar -->
-    <div class="category-bar">
-        <button>Handmade</button>
-        <button>Coding</button>
-        <button>Art</button>
-    </div>
+
 
 
 </div>
-<div class="container mt-4">
+<div class="content">
     <h2 class="title">Update Profile</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
