@@ -18,6 +18,18 @@
             padding: 0;
         }
 
+        .search-results-container {
+    
+    color: #fff; /* White text */
+    padding: 10px 20px; /* Spacing inside the container */
+    border-radius: 8px; /* Rounded corners */
+    text-align: center; /* Center the text */
+    max-width: 400px; /* Maximum width */
+    margin: 20px auto; /* Center the container horizontally */
+    font-size: 25px; /* Font size for the text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
         /* Navigation Bar */
         .navbar {
             position: fixed;
@@ -434,9 +446,20 @@
 <div class="content">
     <!-- Scrollable Category Bar -->
     <div class="category-bar">
-        <button>Handmade</button>
-        <button>Coding</button>
-        <button>Art</button>
+        <form action="{% url 'search' %}" method="get">
+            <button type="submit" name="q" value="software">Software Development</button>
+            <button type="submit" name="q" value="game">Game Design and Development</button>
+            <button type="submit" name="q" value="art">Art and Design</button>
+            <button type="submit" name="q" value="engineering">Engineering Projects</button>
+            <button type="submit" name="q" value="business">Business and Entrepreneurship</button>
+            <button type="submit" name="q" value="data">Data Science and Analytics</button>
+            <button type="submit" name="q" value="media">Multimedia and Content Creation</button>
+            <button type="submit" name="q" value="social">Social and Community Impact</button>
+            <button type="submit" name="q" value="research">Education and Research</button>
+        </form>
+    </div>
+    <div class="search-results-container">
+        <p>Your search results...</p>
     </div>
     
 
@@ -449,7 +472,6 @@
         </div>
     </div>
 {% endfor %}
-
 
 {% for result in results %}
 <div class="post-container" id="post-{{ result.post.id }}">
