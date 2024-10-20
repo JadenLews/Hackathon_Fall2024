@@ -109,7 +109,7 @@
 
     <!-- Profile Header -->
     <div class="profile-header">
-        <a href="#" class="back-arrow">
+        <a href="/home" class="back-arrow">
             <i class="bi bi-arrow-left-circle fs-4"></i>
         </a>
         <img src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}{% static 'images/brocoli.jpg' %}{% endif %}" 
@@ -117,7 +117,7 @@
         <h1>Hi, I'm {{ profile.user.username }}!</h1>
 
         <!-- Clickable Button -->
-        <a href="profile/" class="btn btn-primary mt-3">Go to Profile</a>
+        <a href="/profile" class="btn btn-primary mt-3">Go to Profile</a>
     </div>
 
     <!-- Name and Skills Section -->

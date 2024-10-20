@@ -1,82 +1,244 @@
+{% load static %}
 {% load crispy_forms_tags %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
     <style>
+        /* Global Styles */
         body {
-            background-color: #f8f9fa; /* Light background */
             font-family: Arial, sans-serif;
+            background-color: #1c1c28; /* Dark background */
+            color: #e0e0e0; /* Light text for contrast */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #242434;
+            padding: 10px;
+            border-bottom: 2px solid #3e3e50;
+        }
+
+        .navbar .hamburger {
+            cursor: pointer;
+            font-size: 24px;
+            color: #e0e0e0;
+        }
+
+        .navbar input[type="search"] {
+            width: 100%;
+            max-width: 600px;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Centering search bar */
+        .search-bar-container {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .navbar-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-icons i {
+            font-size: 24px;
+            margin-left: 15px;
+            cursor: pointer;
+            color: #b0b0b0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: #242434;
+            padding: 15px;
+            width: 250px;
+            height: calc(100vh - 50px); /* Subtract navbar height */
+            position: fixed;
+            top: 58px; /* Below the navbar */
+            left: 0;
+            overflow-y: auto;
+            border-right: 2px solid #3e3e50;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #b0b0b0;
+            text-decoration: none;
+            border-bottom: 1px solid #3e3e50;
+        }
+
+        .sidebar a:hover {
+            background-color: #2e2e3e;
+        }
+
+        /* Container for profile form */
+        .container {
+            background-color: #242434;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #3e3e50;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-left: 250px; /* Make space for sidebar */
+            margin-top: 100px;
         }
 
         h2 {
-            color: #343a40; /* Dark gray color */
-            text-align: center;
+            color: #3d73c6;
             margin-bottom: 20px;
         }
 
-        .container {
-            background-color: #fff; /* White background */
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            max-width: 800px;
-        }
-
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            width: 100%;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
+            background-color: #3d73c6;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
+            background-color: #355e9c;
         }
 
-        .profile-image-preview {
-            max-width: 150px;
-            margin-top: 10px;
-            border-radius: 50%;
+        .form-control {
+            background-color: #2e2e3e;
+            color: #fff;
+            border: 1px solid #3e3e50;
+        }
+
+        .form-control:focus {
+            background-color: #2e2e3e;
+            color: #fff;
+            border-color: #3d73c6;
+            box-shadow: none;
+        }
+
+        label {
+            color: #b0b0b0;
+        }
+
+        /* Responsive Sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .container {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="hamburger d-md-none" id="hamburger">☰</div> <!-- Burger for small screens -->
+
+        <!-- Search bar centered -->
+        <div class="search-bar-container">
+            <input type="search" placeholder="Search..." class="form-control">
+        </div>
+
+        <div class="navbar-icons d-flex align-items-center">
+            <i class="bi bi-bell" id="notification-icon"></i>
+            <i class="bi bi-person" id="profile-icon" data-logged-in="{{ user.is_authenticated }}"></i>
+        </div>
+    </div>
+
+    <!-- Sidebar under navbar and next to content -->
+    <div class="sidebar d-none d-md-block">
+        <a href="#"><i class="bi bi-house"></i> Home</a>
+        <a href="#"><i class="bi bi-people"></i> Joined Projects</a>
+    </div>
+
     <!-- Profile Update Form -->
     <div class="container mt-4">
-        <h2>Update Your Profile</h2>
+        <h2>Update Profile</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-6">
-                    <h4>Account Information</h4>
-                    <hr>
                     {% crispy user_form %}
                 </div>
                 <div class="col-md-6">
-                    <h4>Profile Information</h4>
-                    <hr>
                     {% crispy profile_form %}
-                    {% if profile_form.profile_image.value %}
-                        <img src="{{ profile_form.profile_image.value.url }}" class="profile-image-preview" alt="Profile Image">
-                    {% endif %}
+                    <small class="text-muted">Enter your skills in the format: [skill1, skill2, skill3]</small>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-4">Update Profile</button>
+            <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
         </form>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        // Account direction
+        const profileIcon = document.getElementById('profile-icon');
+        const isLoggedIn = profileIcon.getAttribute('data-logged-in') === 'True';
+
+        profileIcon.addEventListener('click', function() {
+            if (isLoggedIn) {
+                window.location.href = '/profile';  // Redirect to profile page
+            } else {
+                window.location.href = "{% url 'login' %}";  // Redirect to login page
+            }
+        });
+
+        // Dropdown functionality for hamburger
+        const hamburger = document.getElementById('hamburger');
+        const dropdown = document.getElementById('dropdown');
+
+        // Open/Close the dropdown menu on click
+        hamburger.addEventListener('click', function() {
+            dropdown.classList.toggle('active');
+        });
+
+        // Close the dropdown menu if clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dropdown.contains(event.target) && !hamburger.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Notification Dropdown Toggle
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        notificationIcon.addEventListener('click', function() {
+            notificationDropdown.classList.toggle('active');
+        });
+
+        // Close the dropdown if clicking outside or double-clicking the notification icon
+        document.addEventListener('click', function(event) {
+            if (!notificationDropdown.contains(event.target) && !notificationIcon.contains(event.target)) {
+                notificationDropdown.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
