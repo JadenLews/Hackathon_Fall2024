@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,9 +69,9 @@
         /* Notification Dropdown */
         .dropdown-menu-notification {
             display: none;
-            position: absolute;
+            position: fixed;
             right: 0;
-            top: 45px;
+            top: 58px;
             width: 350px;
             background-color: #ffffff;
             border-radius: 8px;
@@ -349,7 +350,7 @@
 
         <div class="navbar-icons d-flex align-items-center">
             <i class="bi bi-bell" id="notification-icon"></i>
-            <i class="bi bi-person"></i>
+            <i class="bi bi-person" id="profile-icon" data-logged-in="{{ user.is_authenticated }}"></i>
         </div>
     </div>
 
@@ -394,7 +395,6 @@
         <a href="#"><i class="bi bi-people"></i> Joined Projects</a>
     </div>
 
-    <!-- Main Content -->
 <!-- Main Content -->
 <div class="content">
     <!-- Scrollable Category Bar -->
@@ -461,25 +461,35 @@
     {% endif %}
 </div>
 
-<!-- JavaScript -->
-<script>
-    function toggleBio(postId) {
-        const bioSection = document.getElementById('post-bio-' + postId);
-        
-        if (bioSection.style.display === 'none' || bioSection.style.display === '') {
-            // Expand the bio section
-            bioSection.style.display = 'block';
-        } else {
-            // Collapse the bio section
-            bioSection.style.display = 'none';
-        }
-    }
-</script>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     <script>
+        function toggleBio(postId) {
+            const bioSection = document.getElementById('post-bio-' + postId);
+                
+            if (bioSection.style.display === 'none' || bioSection.style.display === '') {
+                // Expand the bio section
+                bioSection.style.display = 'block';
+            } else {
+                // Collapse the bio section
+                bioSection.style.display = 'none';
+            }
+        }
+
+        // Account direction
+        const profileIcon = document.getElementById('profile-icon');
+        const isLoggedIn = profileIcon.getAttribute('data-logged-in') === 'True';
+
+        profileIcon.addEventListener('click', function() {
+            if (isLoggedIn) {
+                window.location.href = '/profile';  // Redirect to profile page
+            } else {
+                window.location.href = "{% url 'login' %}";  // Redirect to login page
+            }
+        });
+
         // Dropdown functionality for hamburger
         const hamburger = document.getElementById('hamburger');
         const dropdown = document.getElementById('dropdown');
