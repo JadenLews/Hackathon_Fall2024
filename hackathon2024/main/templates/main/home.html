@@ -433,7 +433,9 @@
             <!-- Bullet-point Description -->
             <div class="post-desc">
                 <ul>
-                    <li>{{ post.post.description }}</li>
+                    {% for item in post.post.description %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         
@@ -446,8 +448,8 @@
         
             <!-- Hidden Bio Section -->
             <div class="post-bio" id="post-bio-{{ post.post.id }}" style="display: none; margin-top: 10px;">
-                <strong>Bio:</strong>
-                <p>{{ post.post.bio }}</p>
+                <strong>Summary</strong>
+                <p>{{ post.post.description_long }}</p>
             </div>
         
             <!-- Post Footer: Like Button and More Button -->
