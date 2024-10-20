@@ -28,8 +28,9 @@ urlpatterns = [
     path("main/", include("main.urls")),
     path("", lambda req: redirect('home/')),
     path("profile/", main_views.profile, name="profile"), 
-    path("portfolio/", main_views.portfolio_page, name="profile"), 
+    path("portfolio2/", main_views.portfolio_page, name="profile"), 
     path('create-project/', main_views.create_project_post, name='create-project'),
+    path('portfolio/<str:username>/', main_views.portfolio_page2, name='portfolio')
 ]
 
 

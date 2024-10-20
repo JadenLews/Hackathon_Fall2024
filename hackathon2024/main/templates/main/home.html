@@ -423,12 +423,15 @@
             <div class="post-header d-flex justify-content-between align-items-center">
                 <!-- Left Section: User Icon and Info -->
                 <div class="user-info d-flex align-items-center">
-                    <img src="{{ post.profile_image }}" class="user-image rounded-circle" alt="User Icon">
+                    <a href="{% url 'portfolio' post.post.user.username %}">
+                        <img src="{{ post.profile_image }}" class="user-image rounded-circle" alt="User Icon">
+                    </a>
                     <div class="name-time ml-3">
                         <span class="username">{{ post.post.user.username }}</span>
                         <span class="date-posted">{{ post.post.date }}</span>
                     </div>
                 </div>
+                
         
                 <!-- Right Section: Participants and Request Button -->
                 <div class="post-actions d-flex align-items-center">
@@ -498,7 +501,7 @@
 
         profileIcon.addEventListener('click', function() {
             if (isLoggedIn) {
-                window.location.href = '/portfolio';  // Redirect to profile page
+                window.location.href = '/portfolio2';  // Redirect to profile page
             } else {
                 window.location.href = "{% url 'login' %}";  // Redirect to login page
             }

@@ -129,7 +129,7 @@ def profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated!')
-            return redirect('/portfolio')  # Redirect to portfolio page after saving
+            return redirect('/portfolio2')  # Redirect to portfolio page after saving
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -173,3 +173,23 @@ def create_project_post(request):
         form = ProjectPostForm()
 
     return render(request, 'main/create_project_post.html', {'form': form})
+
+def portfolio_page2(request, username):
+    # Fetch the user by the username from the URL, or return a 404 if not found
+    User = get_user_model()
+    user = get_object_or_404(User, username=username)
+
+    # Ensure the user has a profile
+    if not hasattr(user, 'profile'):
+        Profile.objects.create(user=user)
+
+    # Fetch the user's posts
+    user_posts = ProjectPost.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'profile': user.profile,
+        'posts': user_posts,
+    }
+
+    return render(request, "main/portfolio.html", context)
